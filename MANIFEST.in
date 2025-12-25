@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include vihara_medical *.css
+recursive-include vihara_medical *.csv
+recursive-include vihara_medical *.html
+recursive-include vihara_medical *.ico
+recursive-include vihara_medical *.js
+recursive-include vihara_medical *.json
+recursive-include vihara_medical *.md
+recursive-include vihara_medical *.png
+recursive-include vihara_medical *.py
+recursive-include vihara_medical *.svg
+recursive-include vihara_medical *.txt
+recursive-exclude vihara_medical *.pyc
