@@ -134,3 +134,41 @@ vihara_medical/
 - **Name**: Rajesh Medampudi
 - **Email**: rajesh@simbotix.com
 - **Company**: Simbotix (One Person Company)
+
+## qq — Knowledge Base Search
+
+All searchable knowledge (~47k vectors, 8 collections) lives in Qdrant on Cozystack. `qq` is the only CLI.
+
+### Commands
+
+```bash
+qq "keyword phrase"                   # fast keyword search, ~0.5-7s
+qq -c <collection> "term"             # scope to one collection
+qq -k 10 "topic"                      # top 10 results (default 5)
+qq -l                                 # list all collections + vector counts
+qq --semantic "fuzzy question"        # semantic search via fastembed, ~1-2s
+```
+
+### Which collection to search
+
+| Question about… | Collection | Example |
+|-----------------|-----------|---------|
+| Cozystack, K8s, deployment, DNS, Caddy, Hetzner, servers | `infrastructure` | `qq -c infrastructure "cozystack ingress"` |
+| Architecture, playbooks, operations, how-tos | `docs` | `qq -c docs "backup procedure"` |
+| AppZ / SystemZ / BotZ pricing, Founding Member bundles | `pricing` | `qq -c pricing "founding member"` |
+| Business strategy, customers, product specs, websites, marketing | `simbotix` | `qq -c simbotix "target customer"` |
+| Blog posts, social content, publishing pipeline, AWS consulting content | `personal-social` | `qq -c personal-social "bitcoin"` |
+| Katena, GRK workspace, Frappe client deployments | `grk-infra` | `qq -c grk-infra "katena dns"` |
+| Career pivot, job search, skills development | `career-transition` | `qq -c career-transition "interview"` |
+| Main project CLAUDE.md business context | `deployment-server` | `qq -c deployment-server "focus"` |
+| Unknown / cross-cutting | *no `-c`* | `qq "rajesh medampudi"` |
+
+### Reindex from source (when docs change)
+
+```bash
+qdrant-sync                           # incremental, hash-based skip unchanged
+qdrant-sync -c <name>                 # reindex one collection
+qdrant-sync --full                    # delete + rebuild all
+```
+
+**Rule: Always `qq` first before grep/explore/Agent for knowledge-base lookups.**
